@@ -9,6 +9,7 @@ const Feed = () => {
   const [selectedCategory, setSelectedCategory] = useState("New");
   const [videos, setVideos] = useState(null);
 
+
   const params = useParams();
 
   useEffect(() => {
@@ -30,10 +31,9 @@ const Feed = () => {
     getListVideo()
     .then((result)=>{
       setVideos(result);
-
     })
-    .catch(()=>{
-      console.log("error");
+    .catch((error)=>{
+      console.log(error);
     })
   }, [])
 
