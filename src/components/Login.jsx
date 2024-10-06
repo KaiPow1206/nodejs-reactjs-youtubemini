@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Box, CardMedia } from "@mui/material";
 
 import { Videos, ChannelCard } from ".";
-import { loginAPI, loginFaceBooKAPI } from "../utils/fetchFromAPI";
+import { loginAPI, loginAsyncKey, loginFaceBooKAPI } from "../utils/fetchFromAPI";
 import { toast } from "react-toastify";
 import ReactFacebookLogin from  'react-facebook-login';
 
@@ -37,7 +37,7 @@ const Login = () => {
             let email= document.getElementById("email").value;
             let pass_word=document.getElementById("pass").value;
             console.log(email,pass_word);
-            loginAPI({
+            loginAsyncKey({
               email,
               pass_word,
             })
@@ -57,22 +57,24 @@ const Login = () => {
           }
           }
           >Login</button>
-          <ReactFacebookLogin 
+          <ReactFacebookLogin
             appId="3771455953110034"
             fields="name,email,picture"
-            callback={(res)=> {
-              let{id, email, name} =  res;
-              loginFaceBooKAPI({id,email,name})
-              .then((result) => {
-                toast.success(result.message);
-                localStorage.setItem("LOGIN_USER",result.data);
-                navigate("/");
-              })
-              .catch((error) => {
-                console.log(error);
-                toast.error(error.message);
-                
-              })
+            callback={(res) => {
+              let { id, email, name } = res;
+              loginFaceBooKAPI({ id, email, name })
+                .then((result) => {
+                  toast.success(result.message);
+                  localStorage.setItem("LOGIN_USER", result.data);
+                  navigate("/");
+                })
+                .catch((error) => {
+                  console.log(error);
+                  toast.error(error.message);
+                });
+            }}
+            containerStyle={{
+              marginLeft: '15px', // Thêm khoảng cách bên trái
             }}
           />
         </div>

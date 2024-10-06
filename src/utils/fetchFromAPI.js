@@ -106,3 +106,10 @@ export const loginFaceBooKAPI =async(newUser) => {
   console.log("new", newUser)
   return data;
 }
+
+export const loginAsyncKey = async (payload) =>{
+  const{data} = await axiosInstance.post(`${BASE_URL}/auth/login-async-key`,payload,{
+    withCredentials:true // cho phép gửi và nhận cookie từ server BE
+  });
+  return data;
+}
