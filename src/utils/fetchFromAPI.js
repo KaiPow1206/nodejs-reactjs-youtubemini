@@ -103,7 +103,6 @@ export const loginAPI = async (pageload) =>{
 
 export const loginFaceBooKAPI =async(newUser) => {
   const{data} = await axiosInstance.post(`${BASE_URL}/auth/login-face`,newUser);
-  console.log("new", newUser)
   return data;
 }
 
@@ -111,5 +110,10 @@ export const loginAsyncKey = async (payload) =>{
   const{data} = await axiosInstance.post(`${BASE_URL}/auth/login-async-key`,payload,{
     withCredentials:true // cho phép gửi và nhận cookie từ server BE
   });
+  return data;
+}
+
+export const forgotPassAPI = async (email)=>{
+  const{data} = await axiosInstance.post(`${BASE_URL}/auth/forgot-password`,email);
   return data;
 }

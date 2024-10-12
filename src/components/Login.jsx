@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Box, CardMedia } from "@mui/material";
 
 import { Videos, ChannelCard } from ".";
@@ -57,6 +57,12 @@ const Login = () => {
           }
           }
           >Login</button>
+          <Link
+            className="text-primary"
+            to="/forgot-pass"
+          >
+            Forgot password
+          </Link>
           <ReactFacebookLogin
             appId="3771455953110034"
             fields="name,email,picture"
