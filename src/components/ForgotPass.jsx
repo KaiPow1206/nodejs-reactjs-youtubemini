@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { forgotPassAPI } from '../utils/fetchFromAPI';
+import { changePassAPI, forgotPassAPI } from '../utils/fetchFromAPI';
 export default function ForgotPass() {
     const [step,setStep] = useState(0);
     const[email, setEmail] = useState("");// lưu info email dùng cho step nhập code và mật khẩu mới
@@ -52,9 +52,17 @@ export default function ForgotPass() {
                     <button type="button" className="btn btn-primary"
 
                         onClick={() => {
-                           toast.success("Success Update Your PassWord");
+                        //    
                             let code = document.querySelector("#code").value;
-                           navigate("/login")
+                            let newPass = document.querySelector("#pass").value
+                            changePassAPI({code,email,newPass})
+                            .then((result) => {
+                                toast.success(result.message);
+                                navigate("/login")
+                            })
+                            .catch((error) => {
+                              toast.error("Change password fail");
+                            })
                         }}
                     >Next</button>
 

@@ -50,9 +50,8 @@ const Login = () => {
               //chuyển hướng sang trang chủ khi thành công
               navigate("/");
             })
-            .catch((params) => {
-              console.log("error API");
-              toast.error("Something Wrong");
+            .catch((error) => {
+              toast.error(error.response.data.message);
             })
           }
           }
