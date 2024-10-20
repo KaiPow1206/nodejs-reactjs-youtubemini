@@ -124,3 +124,17 @@ export const changePassAPI = async (payload)=>{
   const{data} = await axiosInstance.post(`${BASE_URL}/auth/change-password`,payload);
   return data;
 }
+
+export const getUserAPI = async (params) => {
+  const{data} = await axiosInstance.get(`${BASE_URL}/users/get-users`);
+  return data;
+}
+
+
+export const uploadAPI = async (file) => {
+  const{data} = await axiosInstance.post(`${BASE_URL}/users/upload-avatar`,file);
+  return data;
+}
+
+
+
