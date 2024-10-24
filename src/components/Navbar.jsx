@@ -1,18 +1,23 @@
 import { Avatar, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
 import { logo } from "../utils/constants";
 import { ChannelCard, SearchBar } from "./";
 
 
 const Navbar = () => {
-
+  const navigate= useNavigate();
   let userLogin = localStorage.getItem("LOGIN_USER")
 
   return (
     <Stack direction="row" alignItems="center" p={2} sx={{ background: '#000', top: 0, justifyContent: "space-between" }}>
       <Link to="/" style={{ display: "flex", alignItems: "center" }}>
-        <img src={logo} alt="logo" height={45} />
+      <img
+        src={logo}
+        alt="logo"
+        height={45}
+        onClick={() => navigate("http://localhost:3000/")} // Điều hướng về trang chủ
+      />
       </Link>
       <SearchBar />
 
