@@ -79,6 +79,12 @@ export const getVideo= async (videoid) => {
   return data;
 }
 
+export const searchVideo = async (videoname) => {
+  const {data} = await axiosInstance.get(`${BASE_URL}/video/search-video/?video_name=${videoname}`);
+  return data;
+}
+
+
 
 export const getListVideo = async () =>{
   const {data} = await axiosInstance.get(`${BASE_URL}/video/get-list-videos`);

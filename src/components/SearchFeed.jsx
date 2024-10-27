@@ -2,16 +2,21 @@ import { useState, useEffect } from "react";
 import { Typography, Box } from "@mui/material";
 import { useParams } from "react-router-dom";
 
-import { fetchFromAPI } from "../utils/fetchFromAPI";
 import { Videos } from "./";
+import { searchVideo } from "../utils/fetchFromAPI";
 
 const SearchFeed = () => {
   const [videos, setVideos] = useState(null);
   const { searchTerm } = useParams();
 
   useEffect(() => {
-   
-    
+    searchVideo(searchTerm)
+    .then((result) => {
+      setVideos(result)
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }, [searchTerm]);
 
   return (
