@@ -146,5 +146,8 @@ export const uploadAPI = async (file) => {
   return data;
 }
 
-
+export const detailUser = async (userid) =>{
+  const {data} = await axiosInstance.get(`${BASE_URL}/users/details-user/${userid}`);
+  return data;
+}
 

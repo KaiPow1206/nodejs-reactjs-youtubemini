@@ -17,7 +17,6 @@ const Videos = ({ videos, direction }) => {
 
         return <Box key={idx}>
           {item.video_id && <VideoCard video={item} />}
-     
         </Box>
       })}
 

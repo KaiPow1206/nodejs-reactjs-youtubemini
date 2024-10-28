@@ -5,10 +5,15 @@ import { Typography, Box, Stack } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Videos, Loader } from "./";
 import { getVideo } from "../utils/fetchFromAPI"; // Giả sử đây là file API bạn gọi
-
+import {io} from 'socket.io-client';
 const VideoDetail = () => {
   const [videoDetail, setVideoDetail] = useState(null);
   const [videos, setVideos] = useState(null);
+  const [likes, setLikes] = useState(0);
+  const [hasLiked, setHasLiked] = useState(false); // Trạng thái đã like chưa
+  const [dislikes, setDislikes] = useState(0); // Thêm biến dislikes
+  const [hasDisliked, setHasDisliked] = useState(false); // Trạng thái đã dislike chưa
+
   const { id } = useParams(); // Lấy ID từ URL
 
   useEffect(() => {
@@ -26,12 +31,49 @@ const VideoDetail = () => {
       { video_id: 2, video_name: "The movies Iron man 4: 0.1 Hours", thumbnail: "https://i.ytimg.com/vi/t86sKsR4pnk/hq720.jpg", channelTitle: "JavaScript Mastery" }
     ];
     setVideos(lstItem);
+
+
+    const socket = io.connect("http://localhost:8080");
+
+    socket.on("send-like", (data) => setLikes(data));
+    socket.on("send-dislike", (data) => setDislikes(data));
+
+    return () => socket.disconnect();
+    
   }, [id]);
 
+  const handleLike = () => {
+    const socket = io.connect("http://localhost:8080");
+
+    if (hasLiked) {
+      socket.emit("unlike"); // Gửi sự kiện unlike đến server
+      setLikes((prevLikes) => prevLikes - 1); // Giảm like trên client
+    } else {
+      socket.emit("like"); // Gửi sự kiện like đến server
+      setLikes((prevLikes) => prevLikes + 1); // Tăng like trên client
+    }
+
+    setHasLiked(!hasLiked); // Đổi trạng thái like
+  };
+
+  const handleDislike = () => {
+    const socket = io.connect("http://localhost:8080");
+
+    if (hasDisliked) {
+      socket.emit("undislike"); // Gửi sự kiện undislike đến server
+      setDislikes((prevDislikes) => prevDislikes - 1);
+    } else {
+      socket.emit("dislike"); // Gửi sự kiện dislike đến server
+      setDislikes((prevDislikes) => prevDislikes + 1);
+    }
+
+    setHasDisliked(!hasDisliked); // Đổi trạng thái dislike
+  };
   if (!videoDetail) return <Loader />; // Hiển thị loader nếu chưa có dữ liệu
 
   // Kiểm tra xem `user` có tồn tại trước khi truy cập thuộc tính `user_id`
   const { video_name, description, source, views, user } = videoDetail;
+
 
   return (
     <Box className="p-5" minHeight="95vh">
@@ -62,11 +104,11 @@ const VideoDetail = () => {
                   <i className="far fa-eye me-2" /> {parseInt(views).toLocaleString()}
                 </Typography>
                 <div>
-                  <a href="#!" className="text-white rounded-start p-2 border">
-                    <i className="far fa-thumbs-up me-2" /> {parseInt(0).toLocaleString()}
+                  <a href="#!" className="text-white rounded-start p-2 border" onClick={handleLike}>
+                    <i className="far fa-thumbs-up me-2" /> {likes.toLocaleString()}
                   </a>
-                  <a href="#!" className="text-white rounded-end p-2 border">
-                    <i className="far fa-thumbs-down me-2" />
+                  <a href="#!" className="text-white rounded-end p-2 border" onClick={handleDislike}>
+                    <i className="far fa-thumbs-down me-2" / >{dislikes.toLocaleString()}
                   </a>
                 </div>
               </Stack>

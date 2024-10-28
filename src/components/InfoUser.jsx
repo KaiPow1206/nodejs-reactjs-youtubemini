@@ -6,6 +6,7 @@ import { Videos, ChannelCard } from ".";
 
 import ReactPlayer from "react-player";
 import { DOMAIN_BE_IMG } from "../utils/constants";
+import { detailUser } from "../utils/fetchFromAPI";
 
 const InfoUser = () => {
   const [channelDetail, setChannelDetail] = useState();
@@ -16,8 +17,16 @@ const InfoUser = () => {
   const { id } = useParams();
 
   useEffect(() => {
-
-  }, []);
+    detailUser(id)
+      .then((result) => {
+        console.log(result)
+        setChannelDetail(result);
+        setAvatar(result.avatar || "http://dergipark.org.tr/assets/app/images/buddy_sample.png");
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [id]);
 
   return <div className="p-5" style={{ minHeight: "95vh" }}>
 
@@ -41,23 +50,37 @@ const InfoUser = () => {
           <div className=" col-10">
             <form className="row g-3 text-white">
               <div className="col-md-6">
-                <label htmlFor="inputEmail4" className="form-label">Full name</label>
-                <input type="fullName" className="form-control" id="inputFullName" />
+                <label htmlFor="inputFullName" className="form-label">Full name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputFullName"
+                  value={channelDetail?.fullName || ""}
+                  onChange={(e) => setChannelDetail({ ...channelDetail, fullName: e.target.value })}
+                />
               </div>
               <div className="col-md-6">
-                <label htmlFor="inputEmail4" className="form-label">Email</label>
-                <input type="email" className="form-control" id="inputEmail" />
+                <label htmlFor="inputEmail" className="form-label">Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="inputEmail"
+                  value={channelDetail?.email || ""}
+                  onChange={(e) => setChannelDetail({ ...channelDetail, email: e.target.value })}
+                />
               </div>
               <div className="col-md-6">
-                <label htmlFor="inputPassword4" className="form-label">Password</label>
-                <input type="password" className="form-control" id="inputPassword" />
-              </div>
-
-
-              <div className="col-12">
-                <button type="button" className="btn btn-primary" >Update</button>
+                <label htmlFor="inputPassword" className="form-label">Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="inputPassword"
+                  value={channelDetail?.password || ""}
+                  onChange={(e) => setChannelDetail({ ...channelDetail, password: e.target.value })}
+                />
               </div>
             </form>
+
 
           </div>
         </div>
