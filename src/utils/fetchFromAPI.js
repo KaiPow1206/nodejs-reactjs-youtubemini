@@ -11,6 +11,13 @@ const options = {
   },
 };
 
+const options1 = {
+  headers: {
+    'token': localStorage.getItem("LOGIN_USER"),
+    'Content-Type': 'multipart/form-data'
+  },
+};
+
 // Tạo một istance axious
 export const axiosInstance = axios.create({
   baseURL: `${BASE_URL}`
@@ -84,8 +91,6 @@ export const searchVideo = async (videoname) => {
   return data;
 }
 
-
-
 export const getListVideo = async () =>{
   const {data} = await axiosInstance.get(`${BASE_URL}/video/get-list-videos`);
   return data;
@@ -95,6 +100,27 @@ export const getType = async ()=>{
   const{data}=await axiosInstance.get(`${BASE_URL}/video/get-types`,options);
   return data;
 }
+
+export const uploadfile = async (userID, payload) => {
+  const { data } = await axiosInstance.post(
+    `${BASE_URL}/users/upload-avatar/${userID}`,
+    payload,
+    options1
+  );
+  return data;
+};
+
+
+export const getAvatar = async (avatarid)=>{
+  const{data} = await axiosInstance.get(`${BASE_URL}/users/get-avatar/:${avatarid}`);
+  return data;
+}
+
+export const uploadfileVideo = async (payload)=>{
+  const{data}=await axiosInstance.post(`${BASE_URL}/video/upload-video`,payload, options1);
+  return data;
+}
+
 
 export const getListVideoType = async(typeid)=>{
     const {data} = await axiosInstance.get(`${BASE_URL}/video/get-typpes-details/${typeid}`);
@@ -146,8 +172,12 @@ export const uploadAPI = async (file) => {
   return data;
 }
 
+export const updateUser = async (userId, payload) => {
+    const { data } = await axiosInstance.put(`/users/update-users/${userId}`, payload);
+    return data;
+};
+
 export const detailUser = async (userid) =>{
   const {data} = await axiosInstance.get(`${BASE_URL}/users/details-user/${userid}`);
   return data;
 }
-
