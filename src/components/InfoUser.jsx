@@ -24,7 +24,9 @@ const InfoUser = () => {
       .then((result) => {
         console.log(result)
         setChannelDetail(result);
-        setAvatar(`http://localhost:8080/${result.avatar}`);
+        const avatarUrl = `http://localhost:8080/${result.avatar}`
+        setAvatar(avatarUrl);
+        localStorage.setItem("USER_AVATAR", avatarUrl); // Lưu avatar vào localStorage
         setFullName(result.full_name);
         setEmail(result.email);
       })

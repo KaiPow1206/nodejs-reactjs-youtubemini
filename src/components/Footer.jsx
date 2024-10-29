@@ -20,7 +20,7 @@ const Footer = () => {
     const [dataChat, setDataChat] = useState([]);
 
     // nhận event từ server
-    
+
     useEffect(() => {
         getUserAPI()
             .then((result) => {
@@ -65,7 +65,7 @@ const Footer = () => {
                     if (user_id == item.user_id) {
                         return <li className="self">
                             <div className="avatar">
-                                <img src="https://amp.businessinsider.com/images/5947f16889d0e20d5e04b3d9-750-562.jpg" />
+                            <img src="http://dergipark.org.tr/assets/app/images/buddy_sample.png"/>
                             </div>
                             <div className="messages">
                                 {item.content}
@@ -77,10 +77,10 @@ const Footer = () => {
                     else {
                         return <li className="other">
                             <div className="avatar">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHTEFMnih7ZgOPIZej2dclAphUeOhVR1OIFaPoYCOqm9fY1Fv7" />
+                            <img src="http://dergipark.org.tr/assets/app/images/buddy_sample.png"/>
                             </div>
                             <div className="messages">
-                            {item.content}
+                                {item.content}
                                 <br />
                                 <time dateTime="2009-11-13T20:00">2/2/2022 22:22</time>
                             </div>
@@ -113,17 +113,20 @@ const Footer = () => {
 
         <div style={{ width: drawer }} className='sidenav'>
             <a href="javascript:void(0)" className="closebtn" onClick={() => setDrawer(0)}>×</a>
-
-            {user.map(item => {
-
-                return <a href="#" onClick={() => {
-                    showChat("block")
-                }}>
-
-                    <img width={50} src={item.avatar} /> {item.full_name}</a>
-            })}
+            {user.map(item => (
+                <a key={item.userId} href="#" onClick={() => showChat("block")}>
+                    <img
+                        width={40}
+                        src={item.avatar.startsWith('http://')
+                            ? item.avatar
+                            : `http://localhost:8080/${item.avatar}`}
+                        alt={item.full_name}
+                        style={{ marginRight: 10 }} // Thêm margin-right cho ảnh
+                    />
+                    {item.full_name}
+                </a>
+            ))}
             <hr />
-
         </div>
 
 
