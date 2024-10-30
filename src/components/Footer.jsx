@@ -27,11 +27,6 @@ const Footer = () => {
                 setUser(result);
             })
             .catch()
-
-        // setUser([{ userId: 1, full_name: "Cat", avatar: "https://i.pinimg.com/736x/05/22/91/0522916c52a9f92a59663d60b9198618.jpg" },
-        // { userId: 2, full_name: "Dog", avatar: "https://i.pinimg.com/236x/d6/10/01/d610015f4e959ec338c6a238ec0b6ea7.jpg" },
-        // { userId: 3, full_name: "Tony", avatar: "https://i.pinimg.com/474x/c2/4b/d8/c24bd877f8c51238ef47312b5ed35f7d.jpg" }
-        // ])
     }, [])
 
     useEffect(() => {

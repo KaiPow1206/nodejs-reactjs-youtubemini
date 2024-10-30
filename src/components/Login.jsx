@@ -18,6 +18,17 @@ const Login = () => {
   useEffect(() => {
 
   }, []);
+  const buttonStyle = {
+    padding: '10px 20px',
+    borderRadius: '5px',
+    border: 'none',
+    cursor: 'pointer',
+    fontSize: '16px',
+    color: 'white',
+    backgroundColor: '#007bff', // Blue color for main buttons
+    margin: '0 5px', // Adds space between buttons
+    textAlign: 'center',
+  };
 
   return <div className="p-5 " style={{ minHeight: "100vh" }}>
     <div className=" d-flex justify-content-center">
@@ -65,7 +76,8 @@ const Login = () => {
           }
           >Login</button>
           <Link
-            className="text-primary"
+            className="btn btn-primary"
+            style={{ marginLeft: '15px' }}
             to="/forgot-pass"
           >
             Forgot password
@@ -86,6 +98,7 @@ const Login = () => {
                   toast.error(error.message);
                 });
             }}
+            cssClass="btn btn-primary"
             containerStyle={{
               marginLeft: '15px', // Thêm khoảng cách bên trái
             }}
