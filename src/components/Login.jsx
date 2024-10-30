@@ -68,6 +68,7 @@ const Login = () => {
               localStorage.setItem("LOGIN_USER",result.data)
               //chuyển hướng sang trang chủ khi thành công
               navigate("/");
+              window.location.reload();
             })
             .catch((error) => {
               toast.error(error.response.data.message);

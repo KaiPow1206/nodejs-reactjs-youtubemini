@@ -35,7 +35,6 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("LOGIN_USER"); // Xóa token
-    setAvatar(defaultAvatar); // Đặt avatar về logo mặc định
     navigate("/"); // Điều hướng về trang chủ
   };
 
