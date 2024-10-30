@@ -18,17 +18,6 @@ const Login = () => {
   useEffect(() => {
 
   }, []);
-  const buttonStyle = {
-    padding: '10px 20px',
-    borderRadius: '5px',
-    border: 'none',
-    cursor: 'pointer',
-    fontSize: '16px',
-    color: 'white',
-    backgroundColor: '#007bff', // Blue color for main buttons
-    margin: '0 5px', // Adds space between buttons
-    textAlign: 'center',
-  };
 
   return <div className="p-5 " style={{ minHeight: "100vh" }}>
     <div className=" d-flex justify-content-center">
@@ -68,7 +57,9 @@ const Login = () => {
               localStorage.setItem("LOGIN_USER",result.data)
               //chuyển hướng sang trang chủ khi thành công
               navigate("/");
-              window.location.reload();
+              setTimeout(() => {
+                window.location.reload();
+            }, 1000);
             })
             .catch((error) => {
               toast.error(error.response.data.message);

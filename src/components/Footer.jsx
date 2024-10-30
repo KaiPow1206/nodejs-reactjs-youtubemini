@@ -60,7 +60,7 @@ const Footer = () => {
                     if (user_id == item.user_id) {
                         return <li className="self">
                             <div className="avatar">
-                            <img src="http://dergipark.org.tr/assets/app/images/buddy_sample.png"/>
+                                <img src="http://dergipark.org.tr/assets/app/images/buddy_sample.png" />
                             </div>
                             <div className="messages">
                                 {item.content}
@@ -72,7 +72,7 @@ const Footer = () => {
                     else {
                         return <li className="other">
                             <div className="avatar">
-                            <img src="http://dergipark.org.tr/assets/app/images/buddy_sample.png"/>
+                                <img src="http://dergipark.org.tr/assets/app/images/buddy_sample.png" />
                             </div>
                             <div className="messages">
                                 {item.content}
@@ -112,9 +112,12 @@ const Footer = () => {
                 <a key={item.userId} href="#" onClick={() => showChat("block")}>
                     <img
                         width={40}
-                        src={item.avatar.startsWith('http://')
-                            ? item.avatar
-                            : `http://localhost:8080/${item.avatar}`}
+                        src={
+                            // Kiểm tra avatar và nếu không hợp lệ, sử dụng ảnh mặc định
+                            item.avatar && typeof item.avatar === 'string' && item.avatar.startsWith('http://')
+                                ? item.avatar
+                                : `http://localhost:8080/${item.avatar || 'http://dergipark.org.tr/assets/app/images/buddy_sample.png'}` // Sử dụng ảnh mặc định nếu không có avatar
+                        }
                         alt={item.full_name}
                         style={{ marginRight: 10 }} // Thêm margin-right cho ảnh
                     />
