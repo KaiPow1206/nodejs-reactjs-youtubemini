@@ -116,10 +116,32 @@ export const getAvatar = async (avatarid)=>{
   return data;
 }
 
-export const uploadfileVideo = async (payload)=>{
-  const{data}=await axiosInstance.post(`${BASE_URL}/video/upload-video`,payload, options1);
+export const uploadfileVideo = async (userID, payload) => {
+  const { data } = await axiosInstance.post(`${BASE_URL}/video/upload-video/${userID}`, payload, options1);
   return data;
-}
+};
+
+
+export const uploadfileThumbnail = async (userID, payload) => {
+  const { data } = await axiosInstance.post(`${BASE_URL}/video/upload-thumbnail/${userID}`, payload, options1);
+  return data;
+};
+export const uploadVideoAndThumbnail = async (userId, payload, options) => {
+  try {
+      // Gửi yêu cầu POST tới API để upload video và thumbnail
+      const { data } = await axiosInstance.post(`${BASE_URL}/video/upload-video/${userId}`, payload, options);
+      return data; // Trả về dữ liệu nhận được từ server
+  } catch (error) {
+      console.error("Error uploading video and thumbnail:", error);
+      throw error; // Ném lỗi lên trên để xử lý ở nơi khác nếu cần
+  }
+};
+
+
+export const updateVideo = async (userID, videoID, payload) => {
+  const { data } = await axiosInstance.put(`/video/update-video-info/${userID}/${videoID}`, payload);
+  return data;
+};
 
 
 export const getListVideoType = async(typeid)=>{
@@ -179,5 +201,10 @@ export const updateUser = async (userId, payload) => {
 
 export const detailUser = async (userid) =>{
   const {data} = await axiosInstance.get(`${BASE_URL}/users/details-user/${userid}`);
+  return data;
+}
+
+export const getVideoByUserid = async(userid) =>{
+  const {data} = await axiosInstance.get(`${BASE_URL}/video/get-video-by-useid/${userid}`);
   return data;
 }

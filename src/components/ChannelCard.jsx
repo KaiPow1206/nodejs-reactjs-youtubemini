@@ -7,12 +7,13 @@ import { jwtDecode } from 'jwt-decode';
 const ChannelCard = ({ userId, channelDetail }) => {
   const avatarUrl = localStorage.getItem("USER_AVATAR") || "http://dergipark.org.tr/assets/app/images/buddy_sample.png";
   const userLogin = localStorage.getItem("LOGIN_USER");
+  const fullName = localStorage.getItem("USER_FULL_NAME"); // Lấy tên người dùng từ local storage
   const userInfo = userLogin ? jwtDecode(userLogin) : null;
   const user_id = userInfo?.payload?.userId; // Lấy ID người dùng từ token
 
   const item = {
     demoProfilePicture: avatarUrl,
-    title: channelDetail?.title || "JavaScript Mastery",
+    title: fullName,
     subscriberCount: channelDetail?.subscriberCount || 1000000,
     channelId: channelDetail?.channelId || 1
   };

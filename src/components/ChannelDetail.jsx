@@ -3,19 +3,33 @@ import { useParams } from "react-router-dom";
 import { Box } from "@mui/material";
 
 import { Videos, ChannelCard } from "./";
-import { fetchFromAPI } from "../utils/fetchFromAPI";
-
+import { jwtDecode } from "jwt-decode";
+import { getVideoByUserid } from "../utils/fetchFromAPI";
 const ChannelDetail = () => {
-  const [channelDetail, setChannelDetail] = useState();
   const [videos, setVideos] = useState(null);
-
+  const [channelDetail, setChannelDetail] = useState(); // Thêm lại state cho channelDetail
   const { id } = useParams();
-
+  
   useEffect(() => {
     const fetchResults = async () => {
-      let lstItem = [{ video_id: 1, video_name: "Build and Deploy 5 JavaScript & React API Projects in 10 Hours - Full Course | RapidAPI", channelDetail: "", marginTop: " ", thumbnail: "https://i.ytimg.com/vi/QU9c0053UAU/hq720.jpg", channelId: 1, channelTitle: "abc", channelId: 1, channelTitle: "JavaScript Mastery" },
-      { video_id: 2, video_name: "The movies Iron man 4: 0.1 Hours", channelDetail: "", marginTop: " ", thumbnail: "https://i.ytimg.com/vi/t86sKsR4pnk/hq720.jpg", channelId: 1, channelTitle: "abc", channelId: 1, channelTitle: "JavaScript Mastery" }];
-      setVideos(lstItem)
+      try {
+        const videoData = await getVideoByUserid(id);
+        setVideos(videoData);
+        
+        // Lấy thông tin channelDetail từ localStorage hoặc API nếu cần
+        const userLogin = localStorage.getItem("LOGIN_USER");
+
+        const userInfo = userLogin ? jwtDecode(userLogin) : null;
+
+        setChannelDetail({
+          fullName: localStorage.getItem("USER_FULL_NAME") || "Default Name",
+          avatarUrl: localStorage.getItem("USER_AVATAR") || "http://dergipark.org.tr/assets/app/images/buddy_sample.png",
+          subscriberCount: 1000, // hoặc lấy từ API nếu cần
+          userId: userInfo?.payload?.userId || id, // Lấy userId từ token
+        });
+      } catch (error) {
+        console.error("Failed to fetch videos:", error);
+      }
     };
 
     fetchResults();
@@ -30,15 +44,13 @@ const ChannelDetail = () => {
           zIndex: 10,
         }} />
         
-        <ChannelCard channelDetail={channelDetail} marginTop="-93px" />
+        {channelDetail && <ChannelCard channelDetail={channelDetail} marginTop="-93px" />} {/* Chỉ hiển thị nếu có channelDetail */}
 
       </Box>
 
-      <Box p={2} display="flex" style={{marginTop:150}}>
+      <Box p={2} display="flex" style={{ marginTop: 150 }}>
         <Box sx={{ mr: { sm: '100px' } }} />
-
         <Videos videos={videos} />
-
       </Box>
     </Box>
   );
